@@ -6,7 +6,7 @@ public abstract class Employee {
   //properties of employee
   public String title;
   public boolean isAvailble;
-
+  public String name; 
 
   //methods for each employee
   public String getTitle() {

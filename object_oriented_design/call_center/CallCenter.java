@@ -36,6 +36,8 @@ public String dispatchCall(Call incomingCall) {
         Optional<Manager> nextManager = this.managers.stream().filter(m -> m.getAvailability() == true).findAny();
         Optional<Director> nextDirector = this.directors.stream().filter(d -> d.getAvailability() == true).findAny();
 
+        //TODO: don't assume that the first avilable, qualified emplyee will be able to handle the call
+        //roll to see if the call is a success and pass the call up if it is not
         if (incomingCall.difficulty == Call.Difficulty.EASY) {
                 if (responderAvailable(this.responders)) {
                         //optionals require get() to access the properties of the original element

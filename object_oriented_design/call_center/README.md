@@ -5,4 +5,6 @@
 
 An abstract class is a class which cannot be instantiated, but can be extended by a subclass. This is potentially for useful for closely related classes which may want to share methods and/or fields.
 
-In this case, Employee is an abstract class that is extended by Director, Responder, and Manager. These different positions share the same properties of availability and names. 
+In this case, Employee is an abstract class that is extended by Director, Responder, and Manager. These different positions share the same properties of availability and names.  
+
+Everything is instantiated in Problem.java and the result is printed to the console.

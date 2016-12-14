@@ -29,7 +29,6 @@ public CallCenter(ArrayList<Responder> responders, ArrayList<Manager> managers,
 public String dispatchCall(Call incomingCall) {
 
         Optional<Responder> nextResponder = this.responders.stream().filter(r -> r.getAvailability() == true).findFirst();
-        //System.out.println(nextResponder.get().name);
         Optional<Manager> nextManager = this.managers.stream().filter(m -> m.getAvailability() == true).findFirst();
         Optional<Director> nextDirector = this.directors.stream().filter(d -> d.getAvailability() == true).findFirst();
 

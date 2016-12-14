@@ -28,9 +28,9 @@ public CallCenter(ArrayList<Responder> responders, ArrayList<Manager> managers,
 
 public String dispatchCall(Call incomingCall) {
 
-        Optional<Responder> nextResponder = this.responders.stream().filter(r -> r.getAvailability() == true).findFirst();
-        Optional<Manager> nextManager = this.managers.stream().filter(m -> m.getAvailability() == true).findFirst();
-        Optional<Director> nextDirector = this.directors.stream().filter(d -> d.getAvailability() == true).findFirst();
+        Optional<Responder> nextResponder = this.responders.stream().filter(r -> r.getAvailability() == true).findAny();
+        Optional<Manager> nextManager = this.managers.stream().filter(m -> m.getAvailability() == true).findAny();
+        Optional<Director> nextDirector = this.directors.stream().filter(d -> d.getAvailability() == true).findAny();
 
         if (incomingCall.difficulty == Call.Difficulty.EASY) {
                 if (responderAvailable(this.responders)) {
@@ -58,7 +58,7 @@ public String dispatchCall(Call incomingCall) {
                         return "We are currently busy, please hold";
                 }
         } else {
-          return "Currently waiting for a valid call";
+                return "Currently waiting for a valid call";
         }
 }
 }

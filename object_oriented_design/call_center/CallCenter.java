@@ -1,50 +1,65 @@
 package call_center_prob;
 import java.util.*;
 
-//will create for the entire group of employees/office
 public class CallCenter {
-  // public int numberOfResponders;
-  // public int numberOfManagers;
-  // public int numberOfDirectors;
-  // public int availableResponders;
-  // public int availableManagers;
-  // public int availableDirectors;
 
-  public ArrayList<Responder> responders;
-  public ArrayList<Manager> managers;
-  public ArrayList<Director> directors;
+public ArrayList<Responder> responders;
+public ArrayList<Manager> managers;
+public ArrayList<Director> directors;
 
-//   public boolean responderAvailable(final ArrayList<Responder> res) {
-//     return res.stream().filter(o -> o.getAvailability().equals(true)).findFirst().isPresent();
-// }
+public boolean responderAvailable(final ArrayList<Responder> res) {
+        return res.stream().filter(o -> o.getAvailability() == true).findFirst().isPresent();
+}
 
-  public CallCenter(ArrayList<Responder> responders, ArrayList<Manager> managers,
-    ArrayList<Director> directors) {
+public boolean managerAvailable(final ArrayList<Manager> manager) {
+        return manager.stream().filter(o -> o.getAvailability() == true).findFirst().isPresent();
+}
 
-    this.responders = responders;
-    this.managers = managers;
-    this.directors = directors;
-  }
+public boolean directorAvailable(final ArrayList<Director> dir) {
+        return dir.stream().filter(o -> o.getAvailability() == true).findFirst().isPresent();
+}
 
-  public String dispatchCall(Call incomingCall) {
-    return "nothing yet";
-    // if (incomingCall.difficulty == Call.Difficulty.EASY && this.availableResponders > 0) {
-    //   return "A Responder will take your call";
-    // }
-    //
-    // if ((incomingCall.difficulty == Call.Difficulty.MEDIUM ||
-    //   incomingCall.difficulty == Call.Difficulty.EASY)
-    //   && this.availableManagers > 0) {
-    //   return "A Manager will take your call";
-    // }
-    //
-    // if ((incomingCall.difficulty == Call.Difficulty.HARD ||
-    //   incomingCall.difficulty == Call.Difficulty.MEDIUM ||
-    //   incomingCall.difficulty == Call.Difficulty.EASY)
-    //   && this.availableDirectors > 0) {
-    //   return "The Director will take your call";
-    // } else {
-    //   return "No one is available, please hold";
-    // }
-  }
+public CallCenter(ArrayList<Responder> responders, ArrayList<Manager> managers,
+                  ArrayList<Director> directors) {
+        this.responders = responders;
+        this.managers = managers;
+        this.directors = directors;
+}
+
+public String dispatchCall(Call incomingCall) {
+
+        Optional<Responder> nextResponder = this.responders.stream().filter(r -> r.getAvailability() == true).findFirst();
+        //System.out.println(nextResponder.get().name);
+        Optional<Manager> nextManager = this.managers.stream().filter(m -> m.getAvailability() == true).findFirst();
+        Optional<Director> nextDirector = this.directors.stream().filter(d -> d.getAvailability() == true).findFirst();
+
+        if (incomingCall.difficulty == Call.Difficulty.EASY) {
+                if (responderAvailable(this.responders)) {
+                        return "Responder, " + nextResponder.get().name + ", will be with you shortly";
+                } else if (managerAvailable(this.managers)) {
+                        return "Manager, " + nextManager.get().name + ", will be with you shortly";
+                } else if (directorAvailable(this.directors)) {
+                        return "Director, " + nextDirector.get().name + ", will be with you shortly";
+                } else {
+                        return "We are currently busy, please hold";
+                }
+
+        } else if (incomingCall.difficulty == Call.Difficulty.MEDIUM) {
+                if (managerAvailable(this.managers)) {
+                        return "Manager, " + nextManager.get().name + ", will be with you shortly";
+                } else if (directorAvailable(this.directors)) {
+                        return "Director, " + nextDirector.get().name + ", will be with you shortly";
+                } else {
+                        return "We are currently busy, please hold";
+                }
+        } else if (incomingCall.difficulty == Call.Difficulty.HARD) {
+                if (directorAvailable(this.directors)) {
+                        return "Director, " + nextDirector.get().name + ", will be with you shortly";
+                } else {
+                        return "We are currently busy, please hold";
+                }
+        } else {
+          return "Currently waiting for a valid call";
+        }
+}
 }

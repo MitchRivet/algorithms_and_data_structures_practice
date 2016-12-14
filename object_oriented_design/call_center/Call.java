@@ -5,6 +5,11 @@ public class Call {
 
   public Call(Difficulty difficulty) {
     this.difficulty = difficulty;
+    this.handled = false;
+  }
+
+  public void handleCall() {
+    this.handled = true;
   }
 
   Difficulty difficulty;

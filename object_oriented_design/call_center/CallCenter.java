@@ -7,6 +7,7 @@ public ArrayList<Responder> responders;
 public ArrayList<Manager> managers;
 public ArrayList<Director> directors;
 
+//use a filter to determine if the different types of employees are available
 public boolean responderAvailable(final ArrayList<Responder> res) {
         return res.stream().filter(o -> o.getAvailability() == true).findFirst().isPresent();
 }
@@ -19,6 +20,7 @@ public boolean directorAvailable(final ArrayList<Director> dir) {
         return dir.stream().filter(o -> o.getAvailability() == true).findFirst().isPresent();
 }
 
+//constructor
 public CallCenter(ArrayList<Responder> responders, ArrayList<Manager> managers,
                   ArrayList<Director> directors) {
         this.responders = responders;
@@ -26,14 +28,17 @@ public CallCenter(ArrayList<Responder> responders, ArrayList<Manager> managers,
         this.directors = directors;
 }
 
+//method for handling a call
 public String dispatchCall(Call incomingCall) {
 
+        //findAny returns an Optional, which will model a potentially missing value without null
         Optional<Responder> nextResponder = this.responders.stream().filter(r -> r.getAvailability() == true).findAny();
         Optional<Manager> nextManager = this.managers.stream().filter(m -> m.getAvailability() == true).findAny();
         Optional<Director> nextDirector = this.directors.stream().filter(d -> d.getAvailability() == true).findAny();
 
         if (incomingCall.difficulty == Call.Difficulty.EASY) {
                 if (responderAvailable(this.responders)) {
+                        //optionals require get() to access the properties of the original element
                         return "Responder, " + nextResponder.get().name + ", will be with you shortly";
                 } else if (managerAvailable(this.managers)) {
                         return "Manager, " + nextManager.get().name + ", will be with you shortly";
